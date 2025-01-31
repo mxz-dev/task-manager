@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tasker_network  # ✅ Use this network name everywhere
+
+  web:
+    build: .
+    container_name: tasker_app
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - ./static:/app/static
+    ports:
+      - "8000:8000"
+    networks:
+      - tasker_network  # ✅ Match this with the network defined below
+
+volumes:
+  postgres_data:
+  
+networks:
+  tasker_network:  # ✅ Define the network here
+    driver: bridge
