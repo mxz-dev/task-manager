@@ -25,11 +25,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', 
 
+    'widget_tweaks', # for form customization
     'allauth', # allauth app
-    'allauth.account',
-    'todo',
+    'allauth.account', # allauth account app 
+    'todo', # todo app
     'users_account', # account management app
+    'captcha', # captcha app
 ]
 
 MIDDLEWARE = [
@@ -131,6 +134,7 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # SMTP Settings 
     # for dev stage
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -139,16 +143,25 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_USERNAME_REQUIRED = False
+
 
 ACCOUNT_FORMS = {
     'add_email': 'allauth.account.forms.AddEmailForm',
     'change_password': 'allauth.account.forms.ChangePasswordForm',
     'confirm_login_code': 'allauth.account.forms.ConfirmLoginCodeForm',
-    'login': 'allauth.account.forms.LoginForm',
+    'login': 'users_account.forms.CustomLoginForm',
+    'signup': 'users_account.forms.CustomSignupForm',
     'request_login_code': 'allauth.account.forms.RequestLoginCodeForm',
     'reset_password': 'allauth.account.forms.ResetPasswordForm',
     'reset_password_from_key': 'allauth.account.forms.ResetPasswordKeyForm',
     'set_password': 'allauth.account.forms.SetPasswordForm',
-    'signup': 'allauth.account.forms.SignupForm',
     'user_token': 'allauth.account.forms.UserTokenForm',
 }
+
+# Login redirect
+# LOGIN_REDIRECT_URL = '/accounts/login/'
+# ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/login/'
+
+# SITE Settings
+SITE_ID = 1

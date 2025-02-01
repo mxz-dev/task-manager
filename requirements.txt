@@ -3,3 +3,5 @@ pillow
 django==5.1.5
 psycopg2
 django-allauth
+django-widget-tweaks
+django-simple-captcha
