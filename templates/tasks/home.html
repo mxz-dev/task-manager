@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Home - Tasker{% endblock %}
 
 {% block content %}
     <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg max-w-md mx-auto">
-      <h1 class="text-2xl font-bold text-center mb-4">Task Manager</h1>
+      <h1 class="text-2xl font-bold text-center mb-4 flex justify-center">Task Manager <img src="{% static 'img/notebook_1f4d3.png' %}" style="width:40px;"></h1>
       <!-- Task Input Form -->
       <form method="POST" action="{% url 'add_task' %}" class="flex flex-col gap-2 mb-4">
           <!-- Error Message Display -->
@@ -26,7 +27,7 @@
               class="w-full p-2 border border-gray-300 rounded focus:outline-none">
           <button type="submit"
               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center gap-2">
-              ➕ Add Task
+            <img src="{% static 'img/plus_2795.png' %}" style="width:20px;"> Add Task
           </button>
       </form>
 
@@ -36,21 +37,21 @@
               <li class="flex justify-between items-center bg-gray-200 p-2 rounded">
                   <div>
                       <span class="font-medium">{{task.task}}</span>
-                      <p class="text-sm text-gray-500">📅 Due: {{task.due_time|date:"Y/M/d"}}</p>
+                      <p class="text-sm text-gray-500 flex"><img src="{% static 'img/tear-off-calendar_1f4c6.png' %}" style="width:25px;padding-right:5px;">Due: {{task.due_time|date:"Y/M/d"}}</p>
                   </div>
 
                   <div class="flex space-x-2">
                       <!-- Edit Button -->
                       <button onclick="openModal()" 
                          class="text-yellow-500 hover:text-yellow-700 p-1 rounded">
-                          ✏️
+                         <img src="{% static 'img/pencil_270f-fe0f.png' %}" style="width:20px;">
                       </button>
                         {% include 'inc/edit_modal.html'%}
                       <!-- Delete Button -->
                       <form method="POST" action="{% url 'delete_task' task.id %}">
                           {% csrf_token %}
                           <button type="submit" class="text-red-500 hover:text-red-700 p-1 rounded">
-                              🗑
+                            <img src="{% static 'img/wastebasket_1f5d1-fe0f.png' %}" style="width:20px;">
                           </button>
                       </form>
                       <div class="flex items-center">
@@ -58,7 +59,7 @@
                           {% csrf_token %}
                           <input name="completed" value="true" hidden />
                           <button type="submit" class="text-green-500 hover:text-green-700 p-1 rounded">
-                              ✅
+                            <img src="{% static 'img/check-mark-button_2705.png' %}" style="width:20px;">
                           </button>
                         </form>
                       </div>
