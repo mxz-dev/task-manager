@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
+{% block title %}Home - Tasker{% endblock %}
 
-{% block content %}<!DOCTYPE html>
+{% block content %}
     <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg max-w-md mx-auto">
       <h1 class="text-2xl font-bold text-center mb-4">Task Manager</h1>
-
       <!-- Task Input Form -->
       <form method="POST" action="{% url 'add_task' %}" class="flex flex-col gap-2 mb-4">
           <!-- Error Message Display -->
@@ -42,10 +41,11 @@
 
                   <div class="flex space-x-2">
                       <!-- Edit Button -->
-                      <a href="#" 
+                      <button onclick="openModal()" 
                          class="text-yellow-500 hover:text-yellow-700 p-1 rounded">
                           ✏️
-                      </a>
+                      </button>
+                        {% include 'inc/edit_modal.html'%}
                       <!-- Delete Button -->
                       <form method="POST" action="{% url 'delete_task' task.id %}">
                           {% csrf_token %}
@@ -53,13 +53,29 @@
                               🗑
                           </button>
                       </form>
-                      <div class="flex items-center p-1">
-                        <input id="checked-checkbox" type="checkbox" value="" class=" cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    </div>
-                    
+                      <div class="flex items-center">
+                        <form action="{% url 'complete_task' task.id %}" method="POST">
+                          {% csrf_token %}
+                          <input name="completed" value="true" hidden />
+                          <button type="submit" class="text-green-500 hover:text-green-700 p-1 rounded">
+                              ✅
+                          </button>
+                        </form>
+                      </div>
                   </div>
               </li>
               {% endfor %}
+              <a href="#" class="text-blue-900 underline font-semibold p-1">Completed Tasks</a>
       </ul>
+      
   </div>
+  <script>
+    function openModal() {
+        document.getElementById("editModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+        document.getElementById("editModal").classList.add("hidden");
+    }
+</script>
 {% endblock %}

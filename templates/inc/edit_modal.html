@@ -1,0 +1,17 @@
+<!-- Modal -->
+<div id="editModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full">
+        <h2 class="text-xl font-semibold mb-4">Edit Task</h2>
+        <form method="POST" action="{% url 'edit_task' task.id %}">
+            {% csrf_token %}
+            <input type="text" name="task" placeholder="Enter a task" value="{{task.task}}"
+              class="w-full p-2 m-2 border border-gray-300 rounded focus:outline-none">
+          <input type="datetime-local" name="due_time" value={{task.due_time}}
+              class="w-full p-2 m-2 border border-gray-300 rounded focus:outline-none">
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Save</button>
+                <button type="button" onclick="closeModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
