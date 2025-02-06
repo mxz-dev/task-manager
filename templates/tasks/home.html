@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}<!DOCTYPE html>
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg max-w-md mx-auto">
+      <h1 class="text-2xl font-bold text-center mb-4">Task Manager</h1>
+
+      <!-- Task Input Form -->
+      <form method="POST" action="{% url 'add_task' %}" class="flex flex-col gap-2 mb-4">
+          <!-- Error Message Display -->
+          {% if form.errors %}
+              <div class="w-full max-w-md mx-auto bg-red-100 border border-red-400 text-red-700 rounded-lg p-4 mb-6">
+                  <h2 class="font-semibold text-lg">There were some errors with your submission:</h2>
+                  <ul class="mt-2 list-disc list-inside">
+                      {% for field in form %}
+                          {% for error in field.errors %}
+                              <li class="text-sm">{{ error }}</li>
+                          {% endfor %}
+                      {% endfor %}
+                  </ul>
+              </div>
+          {% endif %}
+          {% csrf_token %}
+          <input type="text" name="task" placeholder="Enter a task"
+              class="w-full p-2 border border-gray-300 rounded focus:outline-none">
+          <input type="datetime-local" name="due_time"
+              class="w-full p-2 border border-gray-300 rounded focus:outline-none">
+          <button type="submit"
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center gap-2">
+              ➕ Add Task
+          </button>
+      </form>
+
+      <!-- Task List -->
+      <ul class="space-y-2">
+        {% for task in tasks %}
+              <li class="flex justify-between items-center bg-gray-200 p-2 rounded">
+                  <div>
+                      <span class="font-medium">{{task.task}}</span>
+                      <p class="text-sm text-gray-500">📅 Due: {{task.due_time|date:"Y/M/d"}}</p>
+                  </div>
+
+                  <div class="flex space-x-2">
+                      <!-- Edit Button -->
+                      <a href="#" 
+                         class="text-yellow-500 hover:text-yellow-700 p-1 rounded">
+                          ✏️
+                      </a>
+                      <!-- Delete Button -->
+                      <form method="POST" action="{% url 'delete_task' task.id %}">
+                          {% csrf_token %}
+                          <button type="submit" class="text-red-500 hover:text-red-700 p-1 rounded">
+                              🗑
+                          </button>
+                      </form>
+                      <div class="flex items-center p-1">
+                        <input id="checked-checkbox" type="checkbox" value="" class=" cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    
+                  </div>
+              </li>
+              {% endfor %}
+      </ul>
+  </div>
+{% endblock %}
