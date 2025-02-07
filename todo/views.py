@@ -9,7 +9,7 @@ class TasksListView(LoginRequiredMixin, ListView):
     model = Tasks
     template_name = 'tasks/home.html'
     context_object_name = 'tasks'
-    paginate_by = 15
+    paginate_by = 6
     def get_queryset(self):
         return Tasks.objects.filter(user=self.request.user, completed=False).order_by('-created_at')
     
@@ -50,13 +50,33 @@ class CompleteTaskView(LoginRequiredMixin, UpdateView):
 class EditTasksView(LoginRequiredMixin, UpdateView):
     model = Tasks
     template_name = 'tasks/home.html'
-    fields = ['task', 'due_time']
+    fields = ['task', 'due_time', 'completed']
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
     def get_success_url(self):
         messages.success(self.request, 'Task edited successfully')
-        return reverse('home')
+        return reverse("home")
     def form_invalid(self, form):
         messages.error(self.request, 'Error editing task. Please try again')
-        return redirect('home')
+        return redirect(self.request.META.get('HTTP_REFERER'))
+    
+class CompletedTasksView(LoginRequiredMixin, ListView):
+    model = Tasks
+    template_name = 'tasks/completed_tasks.html'
+    context_object_name = 'tasks'
+    paginate_by = 12
+    def get_queryset(self):
+        return Tasks.objects.filter(user=self.request.user, completed=True).order_by('-created_at')
+class IncompleteTasksView(LoginRequiredMixin, UpdateView):
+    model = Tasks
+    template_name = 'tasks/completed_tasks.html'
+    fields = ['completed']
+    context_object_name = 'task'
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.completed = False
+        return super().form_valid(form)
+    def get_success_url(self):
+        messages.success(self.request, 'Task marked as incomplete successfully')
+        return reverse('completed_tasks')
