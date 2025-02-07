@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile - Tasker {%endblock%}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 flex items-center justify-center py-8 px-4">
+    <div class="bg-white w-full max-w-3xl rounded-lg shadow-lg">
+        <!-- Profile Header -->
+        <div class="bg-gray-800 text-white p-6 rounded-t-lg flex items-center space-x-4">
+            <img src="{{profile.avatar.url}}" alt="User Avatar" class="rounded-full w-24 h-24 object-cover">
+            <div>
+                <h2 class="text-2xl font-bold">{{profile.user.get_full_name}}</h2>
+                <p class="text-sm">Username: {{profile.user.username}}</p>
+                <p class="text-sm">Email: {{profile.user.email}}</p>
+            </div>
+        </div>
+
+        <!-- Profile Body -->
+        <div class="p-6 space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <h3 class="font-semibold text-gray-700">Full Name</h3>
+                    <p class="text-gray-600">{{profile.user.get_full_name}}</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-700">Username</h3>
+                    <p class="text-gray-600">{{profile.user.username}}</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-700">Total Tasks</h3>
+                    <p class="text-gray-600">{{profile.total_tasks}}</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-700">Total Completed Tasks</h3>
+                    <p class="text-gray-600">{{profile.completed_tasks}}</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-700">First Name</h3>
+                    <p class="text-gray-600">{{profile.user.first_name}}</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-700">Last Name</h3>
+                    <p class="text-gray-600">{{profile.user.last_name}}</p>
+                </div>
+            </div>
+
+            <!-- Links to Settings Pages -->
+            <div class="mt-6 space-y-2">
+                <a href="{% url 'profile_update' %}" class="block text-blue-500 hover:underline">Change Profile Settings</a>
+                <a href="{% url 'user_update' %}" class="block text-blue-500 hover:underline">Change User Info Settings</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

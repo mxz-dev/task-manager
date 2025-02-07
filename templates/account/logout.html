@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} Sign Out - Tasker {% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-cente ">
+    <div class="bg-white w-96 p-6 rounded-lg shadow-md text-center">
+        <h2 class="text-xl font-semibold mb-4">Are you sure you want to sign out?</h2>
+        <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <button type="submit" 
+                class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition">
+                Sign Out
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
