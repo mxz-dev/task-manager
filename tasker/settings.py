@@ -160,8 +160,7 @@ ACCOUNT_FORMS = {
 }
 
 # Login redirect
-# LOGIN_REDIRECT_URL = '/accounts/login/'
-# ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
 
 # SITE Settings
 SITE_ID = 1

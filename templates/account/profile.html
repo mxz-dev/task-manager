@@ -7,11 +7,27 @@
     <div class="bg-white w-full max-w-3xl rounded-lg shadow-lg">
         <!-- Profile Header -->
         <div class="bg-gray-800 text-white p-6 rounded-t-lg flex items-center space-x-4">
-            <img src="{{profile.avatar.url}}" alt="User Avatar" class="rounded-full w-24 h-24 object-cover">
-            <div>
-                <h2 class="text-2xl font-bold">{{profile.user.get_full_name}}</h2>
-                <p class="text-sm">Username: {{profile.user.username}}</p>
-                <p class="text-sm">Email: {{profile.user.email}}</p>
+            <div class="relative w-24 h-24">
+                <!-- Avatar Image -->
+                <img id="avatar" src={{profile.avatar.url}} alt="Avatar" class="w-full h-full rounded-full object-cover border-4 border-white shadow-lg">
+                
+                <!-- Upload Icon -->
+                <label for="avatarUpload" class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full shadow-lg cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-4m0 0V8m0 4h4m-4 0H8m4-9a9 9 0 110 18 9 9 0 010-18z" />
+                    </svg>
+                </label>
+                <form method="POST" enctype="multipart/form-data" action="{% url 'profile_update' request.user.username %}">
+                    {% csrf_token %}
+                    <!-- Hidden File Input -->
+                    <input type="file" id="avatarUpload" class="hidden" name="avatar" accept="image/*" onchange="previewAvatar(event)"> 
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold">{{profile.user.get_full_name}}</h2>
+                    <p class="text-sm">Username: {{profile.user.username}}</p>
+                    <p class="text-sm">Email: {{profile.user.email}}</p>
+                    <button type="submit" class="bg-blue-600 text-white my-2 rounded-lg shadow-sm w-24 text-sm ">Update Avatar</button>
+            </form>
             </div>
         </div>
 
@@ -46,11 +62,26 @@
 
             <!-- Links to Settings Pages -->
             <div class="mt-6 space-y-2">
-                <a href="{% url 'profile_update' %}" class="block text-blue-500 hover:underline">Change Profile Settings</a>
-                <a href="{% url 'user_update' %}" class="block text-blue-500 hover:underline">Change User Info Settings</a>
+              
+                <a href="{% url 'user_update' request.user.username %}" class="block text-blue-500 hover:underline">Change User Info Settings</a>
+                <a href="{% url 'account_email' %}" class="block text-blue-500 hover:underline">Email Settings</a>
+                <a href="{% url 'account_set_password' %}" class="block text-blue-500 hover:underline">Change Password</a>
+
+                
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    function previewAvatar(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatar').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 {%endblock%}

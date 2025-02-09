@@ -15,8 +15,8 @@
       <a href="/" class="text-xl font-bold text-gray-800">Tasker</a>
       <div>
         {% if request.user.is_authenticated %}
-          <a href="#" class="text-gray-600 hover:text-gray-900 mr-4">Profile</a>
-          <a href="#" class="text-gray-600 hover:text-gray-900 mr-4">Tasks</a>
+          <a href="{% url 'profile' request.user.username %}" class="text-gray-600 hover:text-gray-900 mr-4">Profile</a>
+          <a href="{% url 'home' %}" class="text-gray-600 hover:text-gray-900 mr-4">Tasks</a>
         {%else%}
           <a href="{% url 'account_login' %}" class="text-gray-600 hover:text-gray-900 mr-4">Login</a>
           <a href="{% url 'account_signup' %}" class="text-gray-600 hover:text-gray-900">Sign Up</a>
