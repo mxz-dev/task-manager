@@ -3,8 +3,8 @@
   - [X] signup users
   - [X] login users
   - [X] logout users
-  - [ ] config profile
-  - [ ] confirm email
+  - [X] config profile
+  - [X] confirm email
   - [ ] 2fa authenetication
 - [X] Task
   - [X] add tasks
